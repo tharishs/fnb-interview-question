@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Welcome to my Shop.</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    Authenticated as <span sec:authentication="name"></span></div>
+<div class="container text-center">
+    <h1>Welcome to the shop. Purchase something</h1>
+    <tr th:each="product: ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"/>
+            <td th:text="${product.stock}"/>
+
+        <form th:object="${p1}" th:action="@{/placeOrder}" method="post">
+            <input type="hidden" th:value="${product.id}" name="id"/>
+            <button type="submit" class="btn btn-primary">Buy</button>
+        </form>
+    </tr>
+</div>
+
+</body>
+</html>
