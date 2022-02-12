@@ -13,9 +13,13 @@ public interface StoreService {
 
     List<User> getUsers(Long id);
 
-    List<Order> getOrder(String reference);
+    List<Order> getLoggedInUserOrders(String reference);
 
     String placeOrder(Integer productId, Long customerId);
 
     String payOrder(String reference);
+
+    List<Order> getLoggedInUserOrders();
+
+    String deleteOrder(String reference);
 }

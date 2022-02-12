@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -29,5 +30,7 @@ public class Order {
     @Column(name = "reference", nullable = false)
     private String reference;
 
+    @Column(name = "date", nullable = false)
+    private LocalDateTime dateTime;
 }
 

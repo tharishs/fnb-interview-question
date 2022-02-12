@@ -1,6 +1,7 @@
 package za.co.fnb.interview.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import za.co.fnb.interview.domain.entity.Order;
 import za.co.fnb.interview.domain.entity.Product;
@@ -8,8 +9,11 @@ import za.co.fnb.interview.domain.entity.User;
 import za.co.fnb.interview.domain.repo.OrderRepository;
 import za.co.fnb.interview.domain.repo.ProductRepository;
 import za.co.fnb.interview.domain.repo.UserRepository;
+import za.co.fnb.interview.model.CustomUserDetails;
 import za.co.fnb.interview.service.StoreService;
 
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,7 +62,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Order> getOrder(String reference) {
+    public List<Order> getLoggedInUserOrders(String reference) {
         return orderRepository.findAllByReferenceIgnoreCase(reference);
     }
 
@@ -71,6 +75,7 @@ public class StoreServiceImpl implements StoreService {
         order.setUser(userRepository.getById(customerId));
         String reference = UUID.randomUUID().toString();
         order.setReference(reference);
+        order.setDateTime(LocalDateTime.now());
         orderRepository.save(order);
 
         return String.format("Order has been placed. Reference: [%s] - Please use this when making payment", reference);
@@ -86,6 +91,10 @@ public class StoreServiceImpl implements StoreService {
             return "No stock. Order not placed";
         }
 
+         /*
+            TODO: This is where we set up payment processor component - determine if successful or not and handle appropriately
+         */
+
         List<Product> products = orders.stream().map(Order::getProduct).collect(Collectors.toList());
         products.forEach(product -> product.setStock(product.getStock() - 1));
 
@@ -94,6 +103,23 @@ public class StoreServiceImpl implements StoreService {
         orders.forEach(order -> order.setIsPaid(true));
         orderRepository.saveAll(orders);
 
+        /*
+            TODO: This is where we set up another component (e.g. CAMEL) which can invoke an event and place on queue.
+         */
+
         return "Successfully paid for order. Will be shipped soon";
+    }
+
+    @Override
+    public List<Order> getLoggedInUserOrders() {
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return orderRepository.findAllByUser(principal.getUser());
+    }
+
+    @Override
+    @Transactional
+    public String deleteOrder(String reference) {
+        orderRepository.deleteAllByReferenceIgnoreCase(reference);
+        return "Successfully removed order";
     }
 }

@@ -93,89 +93,36 @@
             text-shadow: 2px 2px 4px #37aaad4a;
         }
 
+        p {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: #ecf0f1;
+            font-family: 'Cherry Swash',cursive;
+            font-size: 16px;
+        }
+
         span {
             color: #270dff;
         }
 
-        .table {
-            margin: 0 0 40px 0;
-            width: 100%;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-            display: table;
+        .main {
+            background-color: #FFFFFF;
+            width: 400px;
+            height: 400px;
+            margin: 7em auto;
+            border-radius: 1.5em;
+            box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
         }
 
-        @media screen and (max-width: 580px) {
-            .table {
-                display: block;
-            }
+        h3.sign {
+            margin: 10px;
+            align-items: center;
+            align-content: center;
+            align-items: center;
         }
 
-        .row {
-            display: table-row;
-            background: #f6f6f6;
-        }
-
-        .row:nth-of-type(odd) {
-            background: #e9e9e9;
-        }
-
-        .row.header {
-            font-weight: 900;
-            color: #ffffff;
-            background: #ea6153;
-        }
-
-        .row.green {
-            background: #27ae60;
-        }
-
-        .row.blue {
-            background: #2980b9;
-        }
-
-        @media screen and (max-width: 580px) {
-            .row {
-                padding: 14px 0 7px;
-                display: block;
-            }
-
-            .row.header {
-                padding: 0;
-                height: 6px;
-            }
-
-            .row.header .cell {
-                display: none;
-            }
-
-            .row .cell {
-                margin-bottom: 10px;
-            }
-
-            .row .cell:before {
-                margin-bottom: 3px;
-                content: attr(data-title);
-                min-width: 98px;
-                font-size: 10px;
-                line-height: 10px;
-                font-weight: bold;
-                text-transform: uppercase;
-                color: #969696;
-                display: block;
-            }
-        }
-
-        .cell {
-            padding: 6px 12px;
-            display: table-cell;
-        }
-
-        @media screen and (max-width: 580px) {
-            .cell {
-                padding: 2px 16px;
-                display: block;
-            }
-        }
     </style>
 </head>
 <body>
@@ -187,44 +134,8 @@
     <div class="animation start-home"></div>
 </nav>
 
-<div class="container text-center">
-    <h1>Products</h1>
+<div class="main">
+    <h3 class="sign" align="center" th:text="${msg}"></h3>
 </div>
-
-<div class="table">
-
-    <div class="row header blue">
-        <div class="cell">
-            Product Name
-        </div>
-        <div class="cell">
-            Price
-        </div>
-        <div class="cell">
-            Stock
-        </div>
-        <div class="cell">
-        </div>
-    </div>
-
-    <div class="row" th:each="product: ${products}">
-        <div class="cell" data-title="Product Name">
-            <p th:text="${product.name}"></p>
-        </div>
-        <div class="cell" data-title="Price">
-            <p th:text="${product.price}"></p>
-        </div>
-        <div class="cell" data-title="Stock">
-            <p th:text="${product.stock}"></p>
-        </div>
-        <div class="cell" data-title="Buy Now">
-            <form th:object="${p1}" th:action="@{/placeOrder}" method="post">
-                <input type="hidden" th:value="${product.id}" name="id"/>
-                <button type="submit" class="btn btn-primary">Quick Order</button>
-            </form>
-        </div>
-    </div>
-</div>
-
 </body>
 </html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <title>Invoice</title>
+</head>
+
+<body>
+<div class="row" th:each="order: ${orders}">
+    <h1>Invoice</h1>
+    <p th:text="'Reference: ' + ${order.reference}"></p>
+    <p th:text="'Date: ' + ${order.dateTime}"></p>
+    <p th:text="'Paid: ' + ${order.isPaid}"></p>
+    <br>
+    <p th:text="'Name: ' + ${order.user.firstName} +' '+ ${order.user.lastName}"></p>
+    <p th:text="'Email: ' + ${order.user.email}"></p>
+    <br>
+    <p th:text="'Product: ' + ${order.product.name}"></p>
+    <p th:text="'Price: ' + ${order.product.price}"></p>
+    <br>
+</div>
+
+</body>
+</html>

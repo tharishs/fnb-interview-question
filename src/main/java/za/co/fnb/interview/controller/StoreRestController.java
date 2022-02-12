@@ -35,6 +35,13 @@ public class StoreRestController {
 
     }
 
+    @DeleteMapping("/order/delete/{reference}")
+    public String deleteOrder(@PathVariable String reference) {
+
+        return storeService.deleteOrder(reference);
+
+    }
+
     @GetMapping("/get/all/users")
     public List<User> getAllUsers() {
         return storeService.getUsers(null);
@@ -61,7 +68,13 @@ public class StoreRestController {
 
     @GetMapping("/get/order/{reference}")
     public List<Order> getOrder(@PathVariable String reference) {
-        return storeService.getOrder(reference);
+        return storeService.getLoggedInUserOrders(reference);
+
+    }
+
+    @GetMapping("/get/user/order")
+    public List<Order> getAllLoggedInUserOrders() {
+        return storeService.getLoggedInUserOrders();
 
     }
 
