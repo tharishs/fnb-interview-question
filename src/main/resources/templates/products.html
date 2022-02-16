@@ -218,7 +218,7 @@
             <p th:text="${product.stock}"></p>
         </div>
         <div class="cell" data-title="Buy Now">
-            <form th:object="${p1}" th:action="@{/placeOrder}" method="post">
+            <form th:if="${product.stock != 0}" th:object="${p1}" th:action="@{/placeOrder}" method="post">
                 <input type="hidden" th:value="${product.id}" name="id"/>
                 <button type="submit" class="btn btn-primary">Quick Order</button>
             </form>
