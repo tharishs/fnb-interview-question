@@ -793,3 +793,6 @@ INSERT INTO[*] ORDERS (PRODUCT_ID,USER_ID,IS_PAID,REFERENCE) VALUES (1,1,FALSE,'
 SELECT * FROM ORDERS 
 
 insert into orders (PRODUCT_ID,USER_ID,IS_PAID,REFERENCE) values (1,1,false,'ipwefmoiwe') [42000-200]
+2022-02-16 17:27:19 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "TRUNCATE ORDERS[*]"; expected "TABLE"; SQL statement:
+TRUNCATE ORDERS [42001-200]
